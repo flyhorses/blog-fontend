@@ -51,9 +51,9 @@
   </div>
 </template>
 <script setup>
-import {ref, reactive} from 'vue';
-import {login} from "@/api/user";
+import {ref, reactive, onMounted} from 'vue';
 import {getCaptcha} from "@/api/api";
+import {login} from "@/api/user";
 //登录表单组件（已实现）
 // 表单数据
 const formData = reactive({
@@ -82,6 +82,9 @@ const handleRefresh = () => {
   captchaUrl.value =  URL.createObjectURL(res.data);
   });
 };
+onMounted(()=>{
+  handleRefresh();
+})
 // 提交表单
 const handleSubmit = async () => {
   if (!validateForm()) return;
@@ -89,8 +92,12 @@ const handleSubmit = async () => {
     isLoading.value = true;
     responseText.value = '';
 
+
+
+
     // 发送登录请求
     const response = await login(formData.mail, formData.password, formData.captcha);
+    console.log(response);
     if (response.data.code === 200) {
       // 登录成功，存储token并跳转,暂时没有实现
       // localStorage.setItem('token', response.data.data.token);

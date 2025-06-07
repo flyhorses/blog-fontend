@@ -8,7 +8,10 @@ export function login(mail,password,captcha){
             mail,
             password,
             captcha
-        }
+        },
+        headers:{
+            'Content-Type': 'application/json'
+        },
     })
 }
 export function register(email,password,code){
